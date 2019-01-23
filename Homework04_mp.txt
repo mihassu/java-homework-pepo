@@ -1,0 +1,17 @@
+/*1. C заданием про ABC разобрался 
+2. ExecutorService целесообразен при большом количестве пользователей, чтобы каждый раз при подключении нового пользователя
+не создавался поток и не было задержки при авторизации*/
+
+        ExecutorService service = Executors.newFixedThreadPool(5);
+
+        service.execute(() -> {
+            try {
+                while (!checkAuth()) ;
+                while (readMessage()) ;
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                ClientHandler.this.disconnect();
+            }
+        });
+
