@@ -1,0 +1,83 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainClass {
+
+    private static Integer[] array = {1, 2, 2, 4, 5, 3, 1, 4, 1};
+    private static final int SOMENUMBER = 4;
+
+    public static void main(String[] args) {
+
+        Integer[] resultArray = getNumbersAfterLastFour(array);
+        for (Integer o : resultArray) {
+            System.out.print(o + " ");
+        }
+    }
+
+    public static Integer[] getNumbersAfterLastFour(Integer[] arr) {
+
+        List<Integer> tempList = new ArrayList();
+        int indexOfLastFour = -1;
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == SOMENUMBER) {
+                indexOfLastFour = i;
+            }
+        }
+
+        if (indexOfLastFour == -1) {
+            System.out.println("В массиве нет цифры " + SOMENUMBER);
+            throw new RuntimeException();
+        }
+
+        if (indexOfLastFour == arr.length - 1) {
+            System.out.println(SOMENUMBER + " - последняя цифра");
+            return null;
+        }
+
+        try {
+            tempList.add(arr[indexOfLastFour + 1]);
+            tempList.add(arr[indexOfLastFour + 2]);
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Массив закончился");
+
+        }
+    Integer[] a = new Integer[tempList.size()];
+    return tempList.toArray(a);
+}
+
+}
+
+
+
+
+import org.junit.Assert;
+import org.junit.Test;
+
+public class MainClassTest {
+
+
+    @Test
+    public void getNumbtest1() {
+        Integer[] testArray = {4, 1, 2, 4, 6, 7};
+        Integer[] resultArray = {6, 7};
+
+        Assert.assertEquals(resultArray, MainClass.getNumbersAfterLastFour(testArray));
+    }
+
+    @Test
+    public void getNumbtest2() {
+        Integer[] testArray = {1, 2, 4, 6, 7, 4};
+        Integer[] resultArray = null;
+
+        Assert.assertEquals(resultArray, MainClass.getNumbersAfterLastFour(testArray));
+    }
+
+    @Test (expected = RuntimeException.class)
+    public void getNumbtest3() {
+        Integer[] testArray = {1, 2, 6, 7, 8};
+        MainClass.getNumbersAfterLastFour(testArray);
+    }
+
+}
