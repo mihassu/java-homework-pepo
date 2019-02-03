@@ -1,0 +1,47 @@
+import java.lang.reflect.Method;
+
+public class Invoker {
+
+
+    public static void start(Class c) throws Exception{
+
+        Method[] methods = c.getDeclaredMethods();
+
+        int beforeSuiteCounter = 0;
+        int afterSuiteCounter = 0;
+
+        for (Method o: methods) {
+            if(o.isAnnotationPresent(BeforeSuite.class)) {
+                beforeSuiteCounter++;
+            }
+
+            if(o.isAnnotationPresent(AfterSuite.class)) {
+                afterSuiteCounter++;
+            }
+        }
+
+        if (!(beforeSuiteCounter <= 1) || !(afterSuiteCounter <= 1)) {
+            throw new RuntimeException();
+        }
+
+        for (Method o: methods) {
+            if(o.isAnnotationPresent(BeforeSuite.class)) {
+                 o.invoke(null);
+            }
+        }
+
+        for (Method o: methods) {
+            if(o.isAnnotationPresent(Test.class)) {
+                o.invoke(null);
+            }
+        }
+
+
+        for (Method o: methods) {
+            if(o.isAnnotationPresent(AfterSuite.class)) {
+                o.invoke(null);
+            }
+        }
+
+    }
+}
