@@ -38,11 +38,12 @@ public class ArrayUtility {
     public double median(){
 
         double median;
+        int len = data.length;
 
-        if (data.length % 2 != 0) {
-            median = data[(data.length - 1) / 2];
+        if (len % 2 != 0) {
+            median = data[(len - 1) / 2];
         } else {
-            median = (double) (data[data.length/ 2] + data[(data.length - 2) / 2]) / 2;
+            median = (double) (data[len / 2] + data[(len - 2) / 2]) / 2;
         }
 
         return median;
